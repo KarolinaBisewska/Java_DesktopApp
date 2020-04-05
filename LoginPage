@@ -44,7 +44,6 @@ public class App extends Application{
         shadow.setRadius(10);
 
 
-
         BorderPane root = new BorderPane();                       //pane
         Scene scene=new Scene(root,1250,750);
 
