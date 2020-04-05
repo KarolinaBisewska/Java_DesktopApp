@@ -1,0 +1,306 @@
+package application;
+import javafx.animation.RotateTransition;
+import javafx.application.Application;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.*;
+import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Duration;
+import javafx.scene.control.Menu;
+
+
+public class App2 extends Application {
+
+
+    private TableView <Project> table = new TableView <Project>();
+    private final ObservableList<Project> data = FXCollections.observableArrayList(new Project
+            ("","","", "","","","",""));
+
+    final HBox hb = new HBox();
+
+    @Override
+    public void start(Stage primaryStage) {
+
+        table.setEditable(true);
+
+        TableColumn projectNameCol = new TableColumn("Project Name");
+        projectNameCol.setMinWidth(110);
+        projectNameCol.setCellValueFactory(new PropertyValueFactory<Project, String>("projectName"));
+
+        TableColumn drawingNumberCol = new TableColumn("Drawings Number");
+        drawingNumberCol.setMinWidth(110);
+        drawingNumberCol.setCellValueFactory(new PropertyValueFactory<Project, String>("drawingNo"));
+
+        TableColumn formatCol = new TableColumn("Format");
+        formatCol.setMinWidth(110);
+        formatCol.setCellValueFactory(new PropertyValueFactory<Project, String>("format"));
+
+        TableColumn typeCol = new TableColumn("Type");
+        typeCol.setMinWidth(110);
+        typeCol.setCellValueFactory(new PropertyValueFactory<Project, String>("type"));
+
+        TableColumn liabilityCol = new TableColumn("Liability");
+        liabilityCol.setMinWidth(110);
+        liabilityCol.setCellValueFactory(new PropertyValueFactory<Project, String>("liability"));
+
+        TableColumn uploadDateCol = new TableColumn("Sent");
+        uploadDateCol.setMinWidth(110);
+        uploadDateCol.setCellValueFactory(new PropertyValueFactory<Project, String>("sent"));
+
+        TableColumn revisionCol = new TableColumn("Revision");
+        revisionCol.setMinWidth(110);
+        revisionCol.setCellValueFactory(new PropertyValueFactory<Project, String>("revision"));
+
+        TableColumn commentsCol = new TableColumn("Comments");
+        commentsCol.setMinWidth(110);
+        commentsCol.setCellValueFactory(new PropertyValueFactory<Project, String>("comments"));
+
+        table.setItems(data);
+        table.getColumns().addAll(projectNameCol,drawingNumberCol,formatCol,typeCol,liabilityCol,uploadDateCol,revisionCol,commentsCol);
+        table.setPadding(new Insets(10,10,10,10));
+        table.setStyle("-fx-background-color:#606060FF");
+
+        BorderPane borderpane = new BorderPane();
+
+        VBox vbox1 = new VBox();
+        vbox1.setPadding(new Insets(10,10,10,10));
+        vbox1.setAlignment(Pos.TOP_CENTER);
+        vbox1.setSpacing(10);
+
+        MenuBar menubar = new MenuBar();
+        menubar.prefWidthProperty().bind(primaryStage.widthProperty());
+        menubar.setMinHeight(25);
+        menubar.setStyle("-fx-background-color:#606060FF");
+
+        Menu FileMenu = new Menu("File");
+        Menu EditMenu = new Menu("Edit");
+
+        menubar.getMenus().addAll(EditMenu,FileMenu);
+
+        borderpane.setTop(menubar);
+
+        Button buttonproject = new Button("REGISTERY");
+        buttonproject.setPrefSize(150,50);
+        buttonproject.setStyle("-fx-border-color: #606060FF; -fx-border-width: 2px;-fx-font-size:15;");
+
+        Button buttonsetting = new Button("SETTINGS");
+        buttonsetting.setPrefSize(150,50);
+        buttonsetting.setStyle("-fx-border-color: #606060FF; -fx-border-width: 2px;-fx-font-size:15;");
+
+        Button buttonhome = new Button("HOME");
+        buttonhome.setPrefSize(150,50);
+        buttonhome.setStyle("-fx-border-color: #606060FF; -fx-border-width: 2px;-fx-font-size:15;");
+
+
+        vbox1.getChildren().addAll(buttonhome,buttonproject,buttonsetting);
+        borderpane.setLeft(vbox);
+
+
+
+        TextField tfprojectname = new TextField();
+        tfprojectname.setPromptText("Project Name");
+        tfprojectname.setMaxWidth(projectNameCol.getPrefWidth());
+
+        TextField tfdrawingno = new TextField();
+        tfdrawingno.setMaxWidth(drawingNumberCol.getPrefWidth());
+        tfdrawingno.setPromptText("Drawing Number");
+
+        TextField tftype = new TextField();
+        tftype.setMaxWidth(typeCol.getPrefWidth());
+        tftype.setPromptText("Type");
+
+        TextField tfformat = new TextField();
+        tfformat.setMaxWidth(formatCol.getPrefWidth());
+        tfformat.setPromptText("Format");
+
+        TextField tfliability = new TextField();
+        tfliability.setMaxWidth(liabilityCol.getPrefWidth());
+        tfliability.setPromptText("Liability");
+
+        TextField tfSent = new TextField();
+        tfSent.setMaxWidth(uploadDateCol.getPrefWidth());
+        tfSent.setPromptText("Uploaded");
+
+        TextField tfRevision = new TextField();
+        tfRevision.setMaxWidth(revisionCol.getPrefWidth());
+        tfRevision.setPromptText("Revision");
+
+        TextField tfComments = new TextField();
+        tfComments.setMaxWidth(commentsCol.getPrefWidth());
+        tfComments.setPromptText("Comments");
+
+        final Button addButton = new Button("Add");
+        addButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                data.add(new Project(
+                        tfprojectname.getText(),
+                        tfdrawingno.getText(),
+                        tfformat.getText(),
+                        tftype.getText(),
+                        tfliability.getText(),
+                        tfSent.getText(),
+                        tfRevision.getText(),
+                        tfComments.getText()
+
+                        ));
+          /*      tfprojectname.clear();
+                tfdrawingno.clear();
+                tfformat.clear();
+                tftype.clear();
+                tfliability.clear();
+                tfSent.clear();
+                tfRevision.clear();
+                tfComments.clear();*/
+            }
+        });
+        Scene home = new Scene(borderpane, 1250, 750);
+
+        Label companyInfo1 = new Label("R");
+        companyInfo1.setFont(Font.font(20));
+        Label companyInfo2 = new Label("O");
+        companyInfo2.setFont(Font.font(20));
+        Label companyInfo3 = new Label("X");
+        companyInfo3.setFont(Font.font(20));
+        Label companyInfo4 = new Label("X");
+        companyInfo4.setFont(Font.font(20));
+        Label companyInfo5 = new Label("Y");
+        companyInfo5.setFont(Font.font(20));
+
+
+
+        GridPane grid = new GridPane();
+      //grid.setGridLinesVisible(true);
+        grid.addRow(0, companyInfo1);
+        grid.addRow(1, companyInfo2);
+        grid.addRow(2, companyInfo3);
+        grid.addRow(3, companyInfo4);
+        grid.addRow(4, companyInfo5);
+        grid.setHgap(20);
+        grid. setVgap(20);
+        grid.setPadding(new Insets(15,15,15,15));
+        grid.setAlignment(Pos.TOP_CENTER);
+
+
+        hb.getChildren().addAll(tfprojectname,tfdrawingno,tftype,tfformat,tfliability,tfSent,tfRevision,tfComments,addButton);
+        hb.setPadding(new Insets(10,10,10,180));
+        hb.setSpacing(10);
+
+        borderpane.setCenter(table);
+        borderpane.setBottom(hb);
+        borderpane.setRight(grid);
+
+
+        primaryStage.setScene(home);
+        primaryStage.setTitle("ROXXY");
+
+        borderpane.setStyle("-fx-background-color:#D6ED17FF");
+        primaryStage.show();
+
+    }
+    public static class Project {
+        private final SimpleStringProperty projectName;
+        private final SimpleStringProperty drawingNo;
+        private final SimpleStringProperty stType;
+        private final SimpleStringProperty stFormat;
+        private final SimpleStringProperty stLiability;
+        private final SimpleStringProperty stSent;
+        private final SimpleStringProperty stRevision;
+        private final SimpleStringProperty stComments;
+
+
+        private Project (String fproject, String fdrawing, String ftype, String fformat, String fliability, String fSent, String fRevision, String fComments) {
+            this.projectName = new SimpleStringProperty(fproject);
+            this.drawingNo = new SimpleStringProperty(fdrawing);
+            this.stType = new SimpleStringProperty(ftype);
+            this.stFormat = new SimpleStringProperty(fformat);
+            this.stLiability = new SimpleStringProperty(fliability);
+            this.stSent = new SimpleStringProperty(fSent);
+            this.stRevision = new SimpleStringProperty(fRevision);
+            this.stComments = new SimpleStringProperty(fComments);
+
+        }
+
+        public String getProjectName() {
+            return projectName.get();
+        }
+        public void setProjectName(String fproject) {
+            projectName.set(fproject);
+        }
+
+        public String getDrawingNo() {
+            return drawingNo.get();
+        }
+        public void setDrawingNo(String fdrawing) {
+            drawingNo.set(fdrawing);
+        }
+
+        public String getType() {
+            return stType.get();
+        }
+        public void setType(String ftype) {
+            stType.set(ftype);
+        }
+
+        public String getFormat() {
+            return stFormat.get();
+        }
+        public void setFormat(String fformat) {
+            stFormat.set(fformat);
+        }
+
+        public String getLiability() {
+            return stLiability.get();
+        }
+        public void setLiability(String fliability) {
+            stLiability.set(fliability);
+        }
+
+        public String getSent() {
+            return stSent.get();
+        }
+        public void setUploadDate(String fSent) {
+            stSent.set(fSent);
+        }
+
+        public String getRevision() {
+            return stRevision.get();
+        }
+        public void setRevision(String fRevision) {
+            stRevision.set(fRevision);
+        }
+
+        public String getComments() {
+            return stComments.get();
+        }
+        public void setComments(String fComments) {
+            stComments.set(fComments);
+        }
+
+    }
+
+
+    public static void main (String[] args)
+    {
+        launch(args);
+    }
+}
