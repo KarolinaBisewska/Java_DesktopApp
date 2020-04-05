@@ -1,0 +1,244 @@
+package application;
+import javafx.animation.RotateTransition;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.*;
+import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Duration;
+
+
+public class App extends Application{
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+
+        final String[] checkUser = new String[1];
+        final String[] checkPw = new String[1];
+        String nick = "karolina";
+        String pw = "password";
+        Glow glow = new Glow();                                  //effects
+        glow.setLevel(100);
+
+        DropShadow shadow = new DropShadow();
+        shadow.setBlurType(BlurType.GAUSSIAN);
+        shadow.setHeight(80);
+        shadow.setWidth(150);
+        shadow.setOffsetX(10);
+        shadow.setOffsetY(10);
+        shadow.setSpread(0.2);
+        shadow.setRadius(10);
+
+
+
+        BorderPane root = new BorderPane();                       //pane
+        Scene scene=new Scene(root,1250,750);
+
+        Polygon poly = new Polygon();                             //shapes
+        poly.setFill(Color.GREENYELLOW);
+        poly.setEffect(glow);
+        poly.setStroke(Color.LIMEGREEN);
+        poly.getPoints().addAll(new Double[]{
+                00.0,375.0,
+                950.0,750.0,
+                1150.0,750.0,
+        });
+
+        Polygon poly2 = new Polygon();
+        poly2.setFill(Color.GREENYELLOW);
+        poly2.setEffect(glow);
+        poly2.setStroke(Color.LIMEGREEN);
+        poly2.getPoints().addAll(new Double[]{
+                1250.0,375.0,
+                100.0,750.0,
+                300.0,750.0,
+        });
+
+        Polygon poly3 = new Polygon();
+        poly3.setFill(Color.GREENYELLOW);
+        poly3.setEffect(glow);
+        poly3.setStroke(Color.LIMEGREEN);
+        poly3.getPoints().addAll(new Double[]{
+                0.0,375.0,
+                950.0,0.0,
+                1150.0,0.0,
+        });
+
+        Polygon poly4 = new Polygon();
+        poly4.setFill(Color.GREENYELLOW);
+        poly4.setEffect(glow);
+        poly4.setStroke(Color.LIMEGREEN);
+        poly4.getPoints().addAll(new Double[]{
+                1250.0,375.0,
+                100.0,0.0,
+                300.0,0.0,
+        });
+
+
+
+      /*Line line = new Line();
+        line.setStroke(Color.LIMEGREEN);
+        line.setStartX(10);
+        line.setEndX(1240);
+        line.setStartY(100);
+        line.setEndY(100);
+        line.setEffect(glow);
+*/
+        Text text = new Text("ROXXY");                                    //text
+        text.setX(575);
+        text.setY(720);
+        text.setFont(Font.font("BankGothic Lt BT",25));
+        text.setFill(Paint.valueOf("YELLOW"));
+        text.setEffect(glow);
+        text.setEffect(shadow);
+
+    /*  Path path = new Path();
+        path.getElements().add(new MoveTo(0f,0f));
+        path.getElements().add (new CubicCurveTo (240f, 230f, 500f, 340f, 600, 50f));
+        PathTransition pathTransition = new PathTransition();
+        pathTransition.setDuration(Duration.millis(1000));
+        pathTransition.setNode(text);
+        pathTransition.setPath(path);
+        pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+        pathTransition.setCycleCount(2);
+        pathTransition.setAutoReverse(true);
+        pathTransition.play();*/
+
+     /* TranslateTransition move = new TranslateTransition();
+        move.setByY(-300);
+        move.setDuration(Duration.millis(1000));
+        move.setCycleCount(2);
+        move.setAutoReverse(true);
+        move.setNode(text);
+        move.play();*/
+
+        Label username = new Label("Username");
+        username.setTextFill(Paint.valueOf("YELLOW"));
+        Label password = new Label("Password");
+        password.setTextFill(Paint.valueOf("YELLOW"));
+        final Label lblMessage = new Label();
+        lblMessage.setTextFill(Color.YELLOW);
+
+        TextField txuser = new TextField();
+        txuser.setMaxWidth(150);
+        txuser.setPromptText("Enter Username");
+        PasswordField txpassword = new PasswordField();
+        txpassword.setPromptText("Enter Password");
+        txpassword.setMaxWidth(150);
+
+        Button btn1 = new Button("Log In");
+        btn1.setMaxWidth(100);
+        btn1.setMaxHeight(50);
+
+        VBox vbox = new VBox();
+        Scene scenehbox = new Scene(vbox, 1200,700);
+        vbox.setStyle("-fx-background-color: transparent");
+        vbox.setSpacing(5);
+        vbox.getChildren().addAll(username,txuser,password,txpassword,btn1, lblMessage);
+
+        RotateTransition rotate = new RotateTransition();
+        rotate.setAxis(Rotate.Z_AXIS);
+        rotate.setByAngle(360);
+        rotate.setCycleCount(3);
+        rotate.setDuration(Duration.millis(300));
+        rotate.setAutoReverse(false);
+        rotate.setNode(text);
+        rotate.play();
+
+        primaryStage.setResizable(false);                                      //settings
+        /*primaryStage.initStyle(StageStyle.DECORATED);*/
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("ROXXY");
+
+        root.setStyle("-fx-background-color:#404040");
+        root.getChildren().addAll(poly, poly2,poly3,poly4,text,vbox);
+        vbox.setAlignment(Pos.CENTER);
+        primaryStage.show();
+
+
+
+
+                                                                                                                                              //SECOND SCENE
+        HBox homehbox = new HBox();
+        homehbox.setAlignment(Pos.TOP_CENTER);
+        Scene home = new Scene(homehbox,1250,750);
+        homehbox.setStyle("-fx-background-color:transparent");
+
+        VBox sidevbox = new VBox();
+        sidevbox.setAlignment(Pos.BASELINE_LEFT);
+        sidevbox.setStyle("-fx-background-color:linen");
+        sidevbox.prefWidth(150);
+        sidevbox.prefHeightProperty().bind(primaryStage.widthProperty());
+
+        Text text1 = new Text("You're logged in");                                    //text
+        text1.setX(575);
+        text1.setY(720);
+        text1.setFont(Font.font("BankGothic Lt BT",25));
+        text1.setFill(Paint.valueOf("BLACK"));
+        text1.setEffect(glow);
+        text1.setEffect(shadow);
+
+        MenuBar menubar = new MenuBar();
+        menubar.prefWidthProperty().bind(primaryStage.widthProperty());
+        menubar.setStyle(String.valueOf(Color.GREEN));
+        Menu FileMenu = new Menu("File");
+        MenuItem filemenu1=new MenuItem("new");
+        MenuItem filemenu2=new MenuItem("Save");
+        MenuItem filemenu3=new MenuItem("Exit");
+        Menu EditMenu=new Menu("Edit");
+        MenuItem EditMenu1=new MenuItem("Cut");
+        MenuItem EditMenu2=new MenuItem("Copy");
+        MenuItem EditMenu3=new MenuItem("Paste");
+        menubar.getMenus().addAll(FileMenu,EditMenu);
+
+        EditMenu.getItems().addAll(EditMenu1,EditMenu2,EditMenu3);
+        FileMenu.getItems().addAll(filemenu1,filemenu2,filemenu3);
+
+        homehbox.getChildren().addAll(menubar,sidevbox);
+        sidevbox.setAlignment(Pos.CENTER);
+        homehbox.setAlignment(Pos.TOP_LEFT);
+
+
+        btn1.setOnAction(new EventHandler<ActionEvent>() {                              //Button
+            @Override
+            public void handle(ActionEvent event) {
+                checkUser[0] = txuser.getText().toString();
+                checkPw[0] = txpassword.getText().toString();
+            if (checkUser[0].equals(nick) && checkPw[0].equals(pw)){
+                primaryStage.hide();
+                primaryStage.setResizable(true);
+                primaryStage.setScene(home);
+                primaryStage.show();
+                }
+            else {
+                lblMessage.setText("Incorrect Username or Password");
+                txuser.setText("");
+                txpassword.setText("");
+            }
+
+            }
+
+        });
+
+
+
+    }
+public static void main (String[] args)
+{
+    launch(args);
+}
+}
